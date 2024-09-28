@@ -1,15 +1,10 @@
 package com.ms.jobms.externalmodel;
 
-
 public class Company {
- 
 
 	private Long companyId;
 	private String name;
 	private String description;
-	
-
-
 
 	public String getName() {
 		return name;
@@ -27,7 +22,6 @@ public class Company {
 		this.description = description;
 	}
 
-
 	public Long getCompanyId() {
 		return companyId;
 	}
@@ -35,6 +29,5 @@ public class Company {
 	public void setCompanyId(Long companyId) {
 		this.companyId = companyId;
 	}
-
 
 }

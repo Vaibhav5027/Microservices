@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.ms.jobms.dto.JobWithCompanyDTO;
+import com.ms.jobms.dto.JobDTO;
 import com.ms.jobms.model.Job;
 
 
 
 public interface JobService {
   
- public ResponseEntity<List<JobWithCompanyDTO>>  findAllJobs();
+ public ResponseEntity<List<JobDTO>>  findAllJobs();
 
 public ResponseEntity<String> cretaJob(Job job);	
 
