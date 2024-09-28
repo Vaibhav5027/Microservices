@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ms.jobms.dto.JobWithCompanyDTO;
 import com.ms.jobms.model.Job;
 import com.ms.jobms.service.JobService;
 
@@ -30,7 +31,7 @@ public class JobController {
 	private static final Logger logger = LoggerFactory.getLogger(JobController.class);
 
 	@GetMapping("getalljob")
-	public ResponseEntity<List<Job>> findAll() {
+	public ResponseEntity<List<JobWithCompanyDTO>> findAll() {
 		logger.info("inside controller {}");
 		System.out.println("inside job");
 		return jobService.findAllJobs();
