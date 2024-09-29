@@ -15,7 +15,7 @@ public interface JobService {
 
 public ResponseEntity<String> cretaJob(Job job);	
 
-public ResponseEntity<Job> findById(int id);
+public ResponseEntity<JobDTO> findById(int id);
 
 public ResponseEntity<String> deleteById(int id);
 

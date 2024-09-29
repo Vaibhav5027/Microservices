@@ -44,7 +44,7 @@ public class JobController {
 	}
 
 	@GetMapping("jobbyid/{id}")
-	public ResponseEntity<Job> findJobById(@PathVariable int id) {
+	public ResponseEntity<JobDTO> findJobById(@PathVariable int id) {
 		logger.info("inside controller {}");
 		System.out.println("inside job");
 		return jobService.findById(id);

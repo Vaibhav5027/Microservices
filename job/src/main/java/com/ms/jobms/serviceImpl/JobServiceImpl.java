@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.ms.jobms.client.CompanyClient;
+import com.ms.jobms.client.ReviewClient;
 import com.ms.jobms.dto.JobDTO;
 import com.ms.jobms.externalmodel.Company;
 import com.ms.jobms.externalmodel.Review;
@@ -28,6 +30,11 @@ public class JobServiceImpl implements JobService {
 	private JobRepository jobRepo;
 
 	@Autowired
+	CompanyClient companyClient;
+	@Autowired
+	ReviewClient reviewClient;
+
+	@Autowired
 	private RestTemplate restTemplate;
 
 	@Override
@@ -40,15 +47,13 @@ public class JobServiceImpl implements JobService {
 
 	private JobDTO convertToDto(Job job) {
 		Long id = job.getCompanyId() != null ? job.getCompanyId() : 1;
-		Company company = restTemplate.getForObject("http://COMPANY:8082/api/company/companyById/" + id,
-				Company.class);		
-		
+		Company company = restTemplate.getForObject("http://COMPANY:8082/api/company/companyById/" + id, Company.class);
+
 		ResponseEntity<List<Review>> exchange = restTemplate.exchange("http://REVIEW:8083/api/reviews?companyId=" + id,
-			    HttpMethod.GET, 
-			    null,
-			    new ParameterizedTypeReference<List<Review>>() {});
+				HttpMethod.GET, null, new ParameterizedTypeReference<List<Review>>() {
+				});
 		List<Review> reviews = exchange.getBody();
-	    JobDTO jobMapper = JobMapper.jobMapper(job, company,reviews);
+		JobDTO jobMapper = JobMapper.jobMapper(job, company, reviews);
 		return jobMapper;
 	}
 
@@ -59,13 +64,14 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public ResponseEntity<Job> findById(int id) {
+	public ResponseEntity<JobDTO> findById(int id) {
 		Optional<Job> job = jobRepo.findById(id);
 
-		if (job == null) {
-			return new ResponseEntity<Job>(new Job(), HttpStatus.BAD_REQUEST);
-		} else
-			return new ResponseEntity<Job>(job.get(), HttpStatus.OK);
+		Company company = companyClient.getCompany(job.get().getCompanyId());
+		List<Review> review = reviewClient.getReview(job.get().getCompanyId());
+		
+		JobDTO jobMapper = JobMapper.jobMapper(job.get(), company, review);
+		return new ResponseEntity<JobDTO>(jobMapper, HttpStatus.OK);
 	}
 
 	@Override

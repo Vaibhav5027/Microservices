@@ -22,4 +22,5 @@ public class JobMapper {
 		return jobDTO;
 	}
 	
+	
 }
