@@ -22,7 +22,7 @@ import com.ms.jobms.service.JobService;
 
 
 @RestController
-@RequestMapping("api/job/")
+@RequestMapping("/api/job/")
 public class JobController {
 
 	@Autowired
