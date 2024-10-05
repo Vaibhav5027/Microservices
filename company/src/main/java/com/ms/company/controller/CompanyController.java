@@ -3,6 +3,7 @@ package com.ms.company.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,22 +20,26 @@ import com.ms.company.service.CompanyService;
 
 
 @RestController
-@RequestMapping("/api/company/")
+@RequestMapping("/api/company")
 public class CompanyController {
 	@Autowired
 	CompanyService companyService;
 
-	@GetMapping("/allCompanies")
+	@GetMapping("")
+	ResponseEntity<String> getCompanies1() {
+		return new ResponseEntity<>("all companies",HttpStatus.OK);
+	}
+	@GetMapping("allCompanies")
 	ResponseEntity<List<Company>> getCompanies() {
 		return companyService.getAllCompanies();
 	}
 	
-	@PutMapping("/updateCompany/{id}")
+	@PutMapping("updateCompany/{id}")
 	ResponseEntity<String> updateCompany(@PathVariable Long id, @RequestBody Company company){
 		return companyService.updateCompany(id,company);
 	}
 	
-	@PostMapping("/addCompany")
+	@PostMapping("addCompany")
 	ResponseEntity<Company> addCompany (@RequestBody Company company){
 		return companyService.addCompany(company);
 	}
@@ -44,7 +49,7 @@ public class CompanyController {
 		return companyService.deleteCompanyById(id);
 	}
 	
-	@GetMapping("/companyById/{id}")
+	@GetMapping("companyById/{id}")
 	ResponseEntity<Company> getCompaniesById(@PathVariable Long id) {
 		return companyService.companyById(id);
 	}
